@@ -1,0 +1,6 @@
+CREATE TABLE mutante(
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    adn VARCHAR(500) NOT NULL,
+    es_mutante TINYINT(1) DEFAULT 0
+)
+

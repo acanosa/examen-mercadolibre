@@ -1,12 +1,23 @@
 package com.canosaa.examenmercadolibre.service;
 
+import com.canosaa.examenmercadolibre.domain.Mutante;
+import com.canosaa.examenmercadolibre.dto.response.EstadisticaTestMutantes;
+import com.canosaa.examenmercadolibre.repository.MutanteRepository;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 @Service
+@Transactional
 public class MutanteService {
+    
+    @Autowired
+    private MutanteRepository mutanteRepository;
 
     public boolean esMutante(String[] adn) {
         Assert.notEmpty(adn, "La cadena de ADN es obligatoria");
@@ -62,7 +73,23 @@ public class MutanteService {
             }
             caracterIterado = 0;
         }
-        return cantidadSecuencias > 1;
+        boolean esMutante = cantidadSecuencias > 1;
+        
+        Mutante mutante = new Mutante(String.join(", ", adn), esMutante);
+        mutanteRepository.save(mutante);
+        
+        return esMutante;
+    }
+    
+    public EstadisticaTestMutantes obtenerEstadisticas(){
+        int cantidadMutantes = mutanteRepository.findByEsMutante(true).size();
+        int cantidadHumanos = mutanteRepository.findByEsMutante(false).size();
+
+        BigDecimal proporcion = BigDecimal.valueOf(cantidadMutantes).divide(BigDecimal.valueOf(cantidadHumanos)).setScale(2);
+        
+        EstadisticaTestMutantes estadisticas = new EstadisticaTestMutantes(cantidadMutantes, cantidadHumanos, proporcion);
+        
+        return estadisticas;
     }
 
 }

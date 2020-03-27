@@ -10,7 +10,7 @@ El endpoint es **POST http://{dominio}:{puerto}/mutants** enviando por body un J
 
 *Ejemplo: {"dna": ["ACTACG", "CATTTT", "GTACAT", "GATAGG", "CGCCTA", "TCACTG"]}*
 
-**Nota:** Se debe tener una cantidad de palabras N con longitud N para llevar a cabo el test de manera exitosa. Por ejemplo, 6 palabras de 6 letras cada una.
+**Nota:** Se debe tener una cantidad de palabras N con longitud N para llevar a cabo el test de manera exitosa. Por ejemplo, 6 palabras de 6 letras cada una. Las palabras deben contener las letras **A**, **C**, **T** Y **G**.
 
 ### Estadisticas 
 Se consulta la cantidad de resultados positivos para ADN mutante y humano, y la proporcion de adn mutantes / adn humano.
@@ -47,7 +47,7 @@ El endpoint es **GET http://{dominio}:{puerto}/stats**
 
 # Caso exitoso
 
-1. Agregar una cadena que cumpla los requisitos de negocio, es decir, tener 2 patrones o más en la lista a enviar con las siguientes caracteristicas (puede ser cualquier patrón en cualquier orden, incluso repetido): 
+Agregar una cadena que cumpla los requisitos de negocio, es decir, tener 2 patrones o más en la lista a enviar con las siguientes caracteristicas (puede ser cualquier patrón en cualquier orden, incluso repetido): 
 a. 4 letras iguales juntas en una palabra 
 b. Observando las palabras como una tabla de N filas, **4 letras iguales en vertical** (o en la misma posicion en cada palabra) 
 c. Imaginando la tabla con las palabras como en el punto anterior, **4 letras en diagonal en ambos sentidos**, es decir, moviendose de a 1 lugar 4 veces, cada vez en una palabra diferente
@@ -63,5 +63,6 @@ Notese que en este caso la primer palabra tiene una **A** en el lugar 1, la segu
 
 # Casos inválidos
 
+- Para el caso donde se envien palabras que no respeten la longitud indicada (su longitud es diferente a la cantidad de palabras) devuelve un mensaje de error con el status **500 INTERNAL SERVER ERROR**
 - Para un caso donde solo podamos encontrar menos de 2 patrones, devuelve **`false`** con el status code **403 FORBIDDEN**
-- Para un caso donde no se envía una lista o esta esta vacía, el servidor devuelve un mensaje de error con el status code **500**
+- Para un caso donde no se envía una lista o esta esta vacía, devuelve un mensaje de error con el status code **500 INTERNAL SERVER ERROR**

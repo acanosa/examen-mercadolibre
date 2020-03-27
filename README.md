@@ -45,7 +45,7 @@ El endpoint es **GET http://{dominio}:{puerto}/stats**
 
 ## Casos de prueba
 
-# Caso exitoso
+### Caso exitoso
 
 Agregar una cadena que cumpla los requisitos de negocio, es decir, tener 2 patrones o más en la lista a enviar con las siguientes caracteristicas (puede ser cualquier patrón en cualquier orden, incluso repetido): 
 a. 4 letras iguales juntas en una palabra 
@@ -61,7 +61,7 @@ Notese que en este caso hay 4 cadenas que empiezan con la letra **A** y luego ha
 - Para el caso **c**: {"dna": ["ACGTCG", "CATGTA", "GCACGT", "CCTAGG", "CCCCTA", "TCACTG"]}. El servidor debe devolver **`true`** con un status code **200 OK**.
 Notese que en este caso la primer palabra tiene una **A** en el lugar 1, la segunda otra en el lugar 2, y asi hasta la 4 inclusive; y un patrón de 4 letras iguales en la penúltima palabra.
 
-# Casos inválidos
+### Casos inválidos
 
 - Para el caso donde se envien palabras que no respeten la longitud indicada (su longitud es diferente a la cantidad de palabras) devuelve un mensaje de error con el status **500 INTERNAL SERVER ERROR**
 - Para un caso donde solo podamos encontrar menos de 2 patrones, devuelve **`false`** con el status code **403 FORBIDDEN**

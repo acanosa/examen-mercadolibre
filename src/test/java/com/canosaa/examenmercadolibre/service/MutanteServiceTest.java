@@ -5,6 +5,7 @@ import com.canosaa.examenmercadolibre.domain.Mutante;
 import com.canosaa.examenmercadolibre.dto.response.EstadisticaTestMutantes;
 import com.canosaa.examenmercadolibre.repository.MutanteRepository;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -15,7 +16,7 @@ public class MutanteServiceTest extends ExamenMercadolibreApplicationTests {
 
     @Autowired
     MutanteService mutanteService;
-    
+
     @Autowired
     MutanteRepository mutanteRepository;
 
@@ -96,35 +97,30 @@ public class MutanteServiceTest extends ExamenMercadolibreApplicationTests {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("La cadena de ADN es obligatoria");
     }
-    
+
     @Test
-    public void obtenerEstadisticas_con1MutanteY1Humano_devuelveUnMutanteDosHumanosYCeroComaCincoDeProporcion(){
+    public void obtenerEstadisticas_con1MutanteY1Humano_devuelveUnMutanteDosHumanosYCeroComaCincoDeProporcion() {
         String[] adnMutante = {"ACTACG", "CATTTT", "GTACAT", "GATAGG", "CGCCTA", "TCACTG"};
         String[] adnHumano = {"AATTCG", "CGTTTT", "GTGCAT", "TATCGG", "AGCCTA", "TCACTG"};
         String[] adnHumano2 = {"AAGTCG", "CGTATT", "GTTCAT", "CATCGG", "AGCCTA", "TCACTG"};
         Mutante mutante = new Mutante(String.join(", ", adnMutante), true);
         Mutante humano = new Mutante(String.join(", ", adnHumano), false);
         Mutante humano2 = new Mutante(String.join(", ", adnHumano2), false);
-        
-        mutanteRepository.deleteAll();
-        
+
         mutanteRepository.save(mutante);
         mutanteRepository.save(humano);
         mutanteRepository.save(humano2);
-        
+
         EstadisticaTestMutantes estadisticas = mutanteService.obtenerEstadisticas();
         assertThat(estadisticas.getCantidadMutantes()).isEqualTo(1);
         assertThat(estadisticas.getCantidadHumanos()).isEqualTo(2);
         assertThat(estadisticas.getProporcion()).isEqualTo(new BigDecimal("0.50"));
     }
-    
+
     private void assertMutanteGuardado(String[] adn, boolean esMutante) {
-        long idUltimoMutanteGuardado = mutanteRepository.count();
-        Mutante mutante = new Mutante(String.join(", ", adn), esMutante);
-        Optional<Mutante> mutanteGuardado = mutanteRepository.findById(idUltimoMutanteGuardado);
-        assertThat(mutanteGuardado).isNotEmpty();
-        assertThat(mutanteGuardado.get().getAdn()).isEqualTo(mutante.getAdn());
-        assertThat(mutanteGuardado.get().isEsMutante()).isEqualTo(mutante.isEsMutante());
+        List<Mutante> mutantesGuardados = mutanteRepository.findAll();
+        assertThat(mutantesGuardados).hasSize(1);
+        assertThat(mutantesGuardados.get(0).getAdn()).isEqualTo(String.join(", ", adn));
+        assertThat(mutantesGuardados.get(0).isEsMutante()).isEqualTo(esMutante);
     }
-    
 }

@@ -1,6 +1,6 @@
 package com.canosaa.examenmercadolibre.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,11 +9,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class EstadisticaTestMutantes {
     
-    @JsonAlias("count_mutant_dna")
+    @JsonProperty("count_mutant_dna")
     private int cantidadMutantes;
-    @JsonAlias("count_human_dna")
+    @JsonProperty("count_human_dna")
     private int cantidadHumanos;
-    @JsonAlias("ratio")
+    @JsonProperty("ratio")
     private BigDecimal proporcion;
     
 }

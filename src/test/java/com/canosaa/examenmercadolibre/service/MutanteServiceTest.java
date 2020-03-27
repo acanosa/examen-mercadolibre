@@ -29,6 +29,16 @@ public class MutanteServiceTest extends ExamenMercadolibreApplicationTests {
         assertThat(esMutante).isTrue();
         assertMutanteGuardado(adn, esMutante);
     }
+    
+    @Test
+    public void esMutante_conCadenaAdnMutanteConLetrasConjuntasHorizontalEn2Partes_devuelveTrueYGuardaMutanteEnBaseDeDatos() {
+        String[] adn = {"AAAACG", "CATTTT", "AAAAAT", "GATAGG", "CGCCTA", "TCACTG"};
+
+        boolean esMutante = mutanteService.esMutante(adn);
+
+        assertThat(esMutante).isTrue();
+        assertMutanteGuardado(adn, esMutante);
+    }
 
     @Test
     public void esMutante_conCadenaAdnMutanteConLetrasConjuntasHorizontalYVertical_devuelveTrue() {

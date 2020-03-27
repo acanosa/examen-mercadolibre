@@ -35,9 +35,10 @@ public class MutanteService {
         int indiceCaracterIterado = 0;
         int cantidadSecuenciasMutantes = 0;
         int cantidadFilas = adn.length;
-        Pattern pattern = Pattern.compile("[A]{4}|[T]{4}|[G]{4}|[C]{4}");
+        Pattern patron4LetrasIgualesEnPalabra = Pattern.compile("[A]{4}|[T]{4}|[G]{4}|[C]{4}");
+        Pattern patronLetrasInvalidas = Pattern.compile("[^AGCT]");
         for (int i = 0; i < cantidadFilas; i++) {
-            if (tiene4PalabrasConjuntasHorizontalmente(adn[i], pattern)) {
+            if (tiene4PalabrasConjuntasHorizontalmente(adn[i], patron4LetrasIgualesEnPalabra, patronLetrasInvalidas)) {
                 cantidadSecuenciasMutantes++;
             }
             if (laPalabraTieneLongitudDistintaALaCantidadDeFilas(adn, adn[i])) {
@@ -55,8 +56,12 @@ public class MutanteService {
         return cantidadSecuenciasMutantes;
     }
     
-    private boolean tiene4PalabrasConjuntasHorizontalmente(String cadena, Pattern pattern) {
-        Matcher matcher = pattern.matcher(cadena);
+    private boolean tiene4PalabrasConjuntasHorizontalmente(String cadena, Pattern patron4LetrasIguales, Pattern patronLetrasInvalidas) {
+        Matcher matcher = patron4LetrasIguales.matcher(cadena); 
+        Matcher matcherCaracteresInvalidos = patronLetrasInvalidas.matcher(cadena);
+        if(matcherCaracteresInvalidos.find()){
+            throw new IllegalArgumentException("Las letras del adn solo pueden ser A, C, G y T");
+        }
         return matcher.find();
     }
     

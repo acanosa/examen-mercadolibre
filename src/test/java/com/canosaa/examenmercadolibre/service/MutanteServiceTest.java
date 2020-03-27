@@ -71,13 +71,12 @@ public class MutanteServiceTest extends ExamenMercadolibreApplicationTests {
     }
 
     @Test
-    public void esMutante_conCadenaAdnMutanteConLetrasInvalidas_devuelveFalse() {
-        String[] adn = {"HHHHLK", "MMMMQR", "ZXCVBB", "NMHJKB", "LLKKMM", "YYUUII"};
+    public void esMutante_conCadenaAdnMutanteConLetrasInvalidas_lanzaExcepcion() {
+        String[] adn = {"AAAACG", "CFTTTT", "AAAAAT", "GATAGG", "CGCCTA", "TCACTG"};
 
-        boolean esMutante = mutanteService.esMutante(adn);
-
-        assertThat(esMutante).isFalse();
-        assertMutanteGuardado(adn, esMutante);
+        assertThatThrownBy(() -> mutanteService.esMutante(adn))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Las letras del adn solo pueden ser A, C, G y T");
     }
 
     @Test

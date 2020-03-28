@@ -63,6 +63,7 @@ Notese que en este caso la primer palabra tiene una **A** en el lugar 1, la segu
 
 ### Casos inválidos
 
-- Para el caso donde se envien palabras que no respeten la longitud indicada (su longitud es diferente a la cantidad de palabras) devuelve un mensaje de error con el status **500 INTERNAL SERVER ERROR**
+- En el caso donde se envie al menos una letra que no sea valida, el servidor devuelve un mensaje de error con el status **400 BAD REQUEST** sin importar que tipo de adn es
+- Para el caso donde se envien palabras que no respeten la longitud indicada (su longitud es diferente a la cantidad de palabras) devuelve un mensaje de error con el status **400 BAD REQUEST**
 - Para un caso donde solo podamos encontrar menos de 2 patrones, devuelve **`false`** con el status code **403 FORBIDDEN**
-- Para un caso donde no se envía una lista o esta esta vacía, devuelve un mensaje de error con el status code **500 INTERNAL SERVER ERROR**
+- Para un caso donde no se envía una lista o esta esta vacía, devuelve un mensaje de error con el status code **400 BAD REQUEST**

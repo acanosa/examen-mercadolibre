@@ -72,7 +72,7 @@ public class MutanteServiceTest extends ExamenMercadolibreApplicationTests {
 
     @Test
     public void esMutante_conCadenaAdnMutanteConLetrasInvalidas_lanzaExcepcion() {
-        String[] adn = {"AAAACG", "CFTTTT", "AAAAAT", "GATAGG", "CGCCTA", "TCACTG"};
+        String[] adn = {"AAAACG", "CGTTTT", "DAFACT", "GATAGG", "CGCCTA", "TCACTG"};
 
         assertThatThrownBy(() -> mutanteService.esMutante(adn))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -90,7 +90,7 @@ public class MutanteServiceTest extends ExamenMercadolibreApplicationTests {
 
     @Test
     public void esMutante_conCadenaAdnConDiferentesCantidadesDeLetrasEnCadaComponente_lanzaExcepcion() {
-        String[] adn = {"CGT", "GCACGT", "G", "U", "CGCCTA", "TCACTG"};
+        String[] adn = {"CGT", "GCACGT", "G", "A", "CGCCTA", "TCACTG"};
 
         assertThatThrownBy(() -> mutanteService.esMutante(adn))
                 .isInstanceOf(IllegalArgumentException.class)

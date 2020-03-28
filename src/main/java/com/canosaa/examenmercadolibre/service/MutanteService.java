@@ -36,18 +36,18 @@ public class MutanteService {
         int cantidadSecuenciasMutantes = 0;
         int cantidadFilas = adn.length;
         Pattern patron4LetrasIgualesEnPalabra = Pattern.compile("[A]{4}|[T]{4}|[G]{4}|[C]{4}");
-        Pattern patronLetrasInvalidas = Pattern.compile("[^AGCT]");
-        for (int i = 0; i < cantidadFilas; i++) {
-            if (tiene4PalabrasConjuntasHorizontalmente(adn[i], patron4LetrasIgualesEnPalabra, patronLetrasInvalidas)) {
+        validarQueAdnTengaSoloLetrasValidas(adn);
+        
+        for (int indiceFilaIterada = 0; indiceFilaIterada < cantidadFilas; indiceFilaIterada++) {
+            if (tiene4PalabrasConjuntasHorizontalmente(adn[indiceFilaIterada], patron4LetrasIgualesEnPalabra)) {
                 cantidadSecuenciasMutantes++;
             }
-            if (laPalabraTieneLongitudDistintaALaCantidadDeFilas(adn, adn[i])) {
+            if (laPalabraTieneLongitudDistintaALaCantidadDeFilas(adn, adn[indiceFilaIterada])) {
                 throw new IllegalArgumentException("Todas las cadenas de caracteres deben tener una longitud "
                         + "igual a la cantidad de cadenas que tiene el ADN para determinar la validez del mutante");
             }
 
-            cantidadSecuenciasMutantes = sumarGruposDeCaracteresConjuntosEnDiagonalYVertical(indiceCaracterIterado, i, cantidadSecuenciasMutantes, adn);
-            
+            cantidadSecuenciasMutantes = sumarGruposDeCaracteresConjuntosEnDiagonalYVertical(indiceCaracterIterado, indiceFilaIterada, cantidadSecuenciasMutantes, adn);
             if (cantidadSecuenciasMutantes > 1) {
                 break;
             }
@@ -55,13 +55,17 @@ public class MutanteService {
         }
         return cantidadSecuenciasMutantes;
     }
-    
-    private boolean tiene4PalabrasConjuntasHorizontalmente(String cadena, Pattern patron4LetrasIguales, Pattern patronLetrasInvalidas) {
-        Matcher matcher = patron4LetrasIguales.matcher(cadena); 
-        Matcher matcherCaracteresInvalidos = patronLetrasInvalidas.matcher(cadena);
+
+    private void validarQueAdnTengaSoloLetrasValidas(String[] adn) throws IllegalArgumentException {
+        Pattern patronLetrasInvalidas = Pattern.compile("[^AGCT]");
+        Matcher matcherCaracteresInvalidos = patronLetrasInvalidas.matcher(String.join("", adn));
         if(matcherCaracteresInvalidos.find()){
             throw new IllegalArgumentException("Las letras del adn solo pueden ser A, C, G y T");
         }
+    }
+    
+    private boolean tiene4PalabrasConjuntasHorizontalmente(String cadena, Pattern patron4LetrasIguales) {
+        Matcher matcher = patron4LetrasIguales.matcher(cadena); 
         return matcher.find();
     }
     

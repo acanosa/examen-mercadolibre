@@ -56,6 +56,7 @@ Siendo:
 ### Casos exitosos
 
 **/mutant**
+
 Para el caso exitoso puede haber 3 patrones en las palabras, siendo necesarios 2 o más para indicar que el adn es mutante, los patrones son los siguientes: 
 a. **4 letras iguales juntas** en una palabra 
 b. Observando las palabras como una tabla de N filas, **4 letras iguales en vertical** (o en la misma posicion en cada palabra) 
@@ -73,10 +74,16 @@ Notese que en este caso hay 4 cadenas que empiezan con la letra **A** y luego ha
 Notese que en este caso la primer palabra tiene una **A** en el lugar 1, la segunda otra en el lugar 2, y asi hasta la 4 inclusive; y además un patrón de 4 letras iguales en la penúltima palabra.
 
 **/stats**
+
 - Devuelve la cantidad de adn mutantes y humanos junto con el ratio de los mismos (mutantes/humanos)
 
 ### Casos inválidos
 **/mutant**
+
 - En el caso donde se envie al menos una letra que no sea valida, el servidor devuelve un mensaje de error con el status **400 BAD REQUEST** sin importar que tipo de adn es
 - Para el caso donde se envien palabras que no respeten la longitud indicada (su longitud es diferente a la cantidad de palabras) devuelve un mensaje de error con el status **400 BAD REQUEST**
 - Para un caso donde no se envía una lista o esta esta vacía, devuelve un mensaje de error con el status code **400 BAD REQUEST**
+
+**/stats**
+
+-Si se desean consultar los stats sin humanos registrados, la aplicación devuelve un status code **400 BAD REQUEST** debido a que no se puede obtener el ratio de mutantes y humanos.

@@ -86,4 +86,4 @@ Notese que en este caso la primer palabra tiene una **A** en el lugar 1, la segu
 
 **/stats**
 
--Si se desean consultar los stats sin humanos registrados, la aplicación devuelve un status code **400 BAD REQUEST** debido a que no se puede obtener el ratio de mutantes y humanos.
+- Si se desean consultar los stats sin humanos registrados, la aplicación devuelve un status code **400 BAD REQUEST** debido a que no se puede obtener el ratio de mutantes y humanos.

@@ -2,12 +2,14 @@
 Ejercicio de solución al exámen de mercadolibre 2020
 Servicio REST de Java con Spring Boot
 
+Link a aplicación: http://ec2-18-228-137-74.sa-east-1.compute.amazonaws.com
+
 ## Funcionalidades
 
 ### Verificación de adn mutante 
 Ante determinado ADN se verifica mediante sus secuencias si el mismo pertenece a un mutante o no. Cada verificación se guarda en la base de datos, ya sea mutante o no.
 
-El endpoint es **POST http://{dominio}:{puerto}/mutants**, se debe enviar por body un JSON como el siguiente:
+El endpoint es **POST http://{dominio}:{puerto}/mutant**, se debe enviar por body un JSON como el siguiente:
 
 *{"dna": ["ACTACG", "CATTTT", "GTACAT", "GATAGG", "CGCCTA", "TCACTG"]}*
 
@@ -53,6 +55,7 @@ Siendo:
 
 ### Casos exitosos
 
+**/mutant**
 Para el caso exitoso puede haber 3 patrones en las palabras, siendo necesarios 2 o más para indicar que el adn es mutante, los patrones son los siguientes: 
 a. **4 letras iguales juntas** en una palabra 
 b. Observando las palabras como una tabla de N filas, **4 letras iguales en vertical** (o en la misma posicion en cada palabra) 
@@ -69,10 +72,11 @@ Notese que en este caso hay 4 cadenas que empiezan con la letra **A** y luego ha
 - Para el caso **c**: {"dna": ["ACGTCG", "CATGTA", "GCACGT", "CCTAGG", "CCCCTA", "TCACTG"]}. El servidor debe devolver **`true`** con un status code **200 OK**.
 Notese que en este caso la primer palabra tiene una **A** en el lugar 1, la segunda otra en el lugar 2, y asi hasta la 4 inclusive; y además un patrón de 4 letras iguales en la penúltima palabra.
 
-
+**/stats**
+- Devuelve la cantidad de adn mutantes y humanos junto con el ratio de los mismos (mutantes/humanos)
 
 ### Casos inválidos
-
+**/mutant**
 - En el caso donde se envie al menos una letra que no sea valida, el servidor devuelve un mensaje de error con el status **400 BAD REQUEST** sin importar que tipo de adn es
 - Para el caso donde se envien palabras que no respeten la longitud indicada (su longitud es diferente a la cantidad de palabras) devuelve un mensaje de error con el status **400 BAD REQUEST**
 - Para un caso donde no se envía una lista o esta esta vacía, devuelve un mensaje de error con el status code **400 BAD REQUEST**

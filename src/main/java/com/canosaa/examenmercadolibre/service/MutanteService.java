@@ -138,7 +138,9 @@ public class MutanteService {
     public EstadisticaTestMutantes obtenerEstadisticas() {
         int cantidadMutantes = mutanteRepository.findByEsMutante(true).size();
         int cantidadHumanos = mutanteRepository.findByEsMutante(false).size();
-
+        if(cantidadHumanos == 0){
+            throw new IllegalArgumentException("No hay registros de humanos para analizar la proporcion entre estos y los mutantes");
+        }
         BigDecimal proporcion = BigDecimal.valueOf(cantidadMutantes).divide(BigDecimal.valueOf(cantidadHumanos)).setScale(2);
 
         EstadisticaTestMutantes estadisticas = new EstadisticaTestMutantes(cantidadMutantes, cantidadHumanos, proporcion);

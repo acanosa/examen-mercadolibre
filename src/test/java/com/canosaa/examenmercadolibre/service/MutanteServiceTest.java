@@ -69,6 +69,16 @@ public class MutanteServiceTest extends ExamenMercadolibreApplicationTests {
         assertThat(esMutante).isTrue();
         assertMutanteGuardado(adn, esMutante);
     }
+    
+    @Test
+    public void esMutante_conCadenaAdnMutanteConMenosDe2Secuencias_devuelveFalse() {
+        String[] adn = {"ACTGAT", "ATTGAG", "ATTCGA", "TCGGTG", "CGCATA", "ACAGTG"};
+
+        boolean esMutante = mutanteService.esMutante(adn);
+
+        assertThat(esMutante).isFalse();
+        assertMutanteGuardado(adn, esMutante);
+    }
 
     @Test
     public void esMutante_conCadenaAdnMutanteConLetrasInvalidas_lanzaExcepcion() {
@@ -124,6 +134,13 @@ public class MutanteServiceTest extends ExamenMercadolibreApplicationTests {
         assertThat(estadisticas.getCantidadMutantes()).isEqualTo(1);
         assertThat(estadisticas.getCantidadHumanos()).isEqualTo(2);
         assertThat(estadisticas.getProporcion()).isEqualTo(new BigDecimal("0.50"));
+    }
+    
+    @Test
+    public void obtenerEstadisticas_sinHumanosEnBd_lanzaExcepcion() {
+        assertThatThrownBy(() -> mutanteService.obtenerEstadisticas())
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("No hay registros de humanos para analizar la proporcion entre estos y los mutantes");
     }
 
     private void assertMutanteGuardado(String[] adn, boolean esMutante) {

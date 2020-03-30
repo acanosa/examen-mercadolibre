@@ -2,7 +2,7 @@
 Ejercicio de solución al exámen de mercadolibre 2020
 Servicio REST de Java con Spring Boot
 
-Link a aplicación: http://ec2-18-228-137-74.sa-east-1.compute.amazonaws.com
+Dominio de la aplicación: http://ec2-18-228-137-74.sa-east-1.compute.amazonaws.com
 
 ## Funcionalidades
 
